@@ -1,0 +1,20 @@
+{
+	"name": "SQL script 5",
+	"properties": {
+		"folder": {
+			"name": "nyc_taxi/discovery"
+		},
+		"content": {
+			"query": "WITH v_payment_type AS (\n    SELECT *\n        FROM OPENROWSET(\n            BULK 'payment_type.json',\n            DATA_SOURCE = 'nyc_taxi_data_raw',\n            FORMAT = 'CSV',\n            PARSER_VERSION = '1.0',\n            FIELDTERMINATOR ='0x0b',\n            FIELDQUOTE='0x0b',\n            ROWTERMINATOR = '0x0a'\n        )\n    WITH(\n        jsonDoc NVARCHAR(MAX)\n        ) AS payment_type\n    CROSS APPLY OPENJSON(jsonDoc)\n    WITH(\n        payment_type SMALLINT,\n        payment_type_desc VARCHAR(20) \n        )\n),\n\nv_taxi_zone AS (\n    SELECT\n        *\n    FROM\n        OPENROWSET(\n            BULK 'taxi_zone.csv',\n            DATA_SOURCE = 'nyc_taxi_data_raw',\n            FORMAT = 'CSV',\n            PARSER_VERSION = '2.0',\n            HEADER_ROW = TRUE\n        )\n        WITH (\n        location_id SMALLINT 1,\n        borough VARCHAR(15) 2,\n        zone VARCHAR(50) 3,\n        service_zone VARCHAR(15) 4\n    )AS [result]\n),\n\nv_trip_data AS (\n    SELECT\n        *\n    FROM\n    OPENROWSET(\n        BULK 'trip_data_green_csv/**',\n        DATA_SOURCE = 'nyc_taxi_data_raw',\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0',\n        HEADER_ROW = TRUE\n    ) AS trip_data\n)\n\n\nSELECT *\n        -- v_taxi_zone.borough, \n        -- count(1) as total_trips,\n        -- SUM(CASE WHEN v_payment_type.payment_type_desc = 'Cash' THEN 1 ELSE 0 ) AS cash_trip,\n        -- SUM(CASE WHEN v_payment_type.payment_type_desc = 'Card' THEN 1 ELSE 0 ) AS card_trip,\n        \nFROM\n    v_trip_data\n    LEFT JOIN v_taxi_zone\n    LEFT JOIN v_payment_type\n    ON v_trip_data.PULocationID = taxi_zone.LocationID \n    ON v_trip_data.payment_type = v_payment_type.payment_type_desc\n    -- GROUP BY v_taxi_zone.borough, v_payment_type.payment_type\n\n\n\n\n\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "synapse",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
