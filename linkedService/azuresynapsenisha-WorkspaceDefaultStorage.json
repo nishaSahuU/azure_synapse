@@ -3,7 +3,7 @@
 	"type": "Microsoft.Synapse/workspaces/linkedservices",
 	"properties": {
 		"typeProperties": {
-			"url": "https://datalakenishashau234.dfs.core.windows.net"
+			"url": "https://datalakenisha.dfs.core.windows.net"
 		},
 		"type": "AzureBlobFS",
 		"connectVia": {
