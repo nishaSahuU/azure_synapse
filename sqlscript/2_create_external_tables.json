@@ -1,0 +1,20 @@
+{
+	"name": "2_create_external_tables",
+	"properties": {
+		"folder": {
+			"name": "nyc_taxi/local_data_warehouse"
+		},
+		"content": {
+			"query": "USE nyc_taxi_ldw;\n\nCREATE EXTERNAL DATA SOURCE nyc_taxi_src\nWITH (\n    LOCATION = 'https://datalakenisha.dfs.core.windows.net/datalakenisha');\nGO\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc_taxi_ldw",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
