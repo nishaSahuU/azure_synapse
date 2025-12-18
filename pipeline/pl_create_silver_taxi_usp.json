@@ -3,6 +3,18 @@
 	"properties": {
 		"activities": [
 			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"typeProperties": {
+					"items": {
+						"value": "[{ \"folder_path\":\"silver/calender\",\n          \"usp_name\":\"silver.usp_silver_calender\"\n        },\n{ \"folder_path\":\"silver/taxi_zone\",\n          \"usp_name\":\"silver.usp_silver_taxi_zone\"\n        },\n{ \"folder_path\":\"silver/trip_type\",\n          \"usp_name\":\"silver.usp_silver_trip_type\"\n        },\n{ \"folder_path\":\"silver/vendor\",\n          \"usp_name\":\"silver.usp_silver_vendor\"\n        },\n{ \"folder_path\":\"silver/rate_code\",\n          \"usp_name\":\"silver.usp_silver_rate_code\"\n        },\n{ \"folder_path\":\"silver/payment_type\",\n          \"usp_name\":\"silver.usp_silver_payment_type\"\n        },\n]",
+						"type": "Expression"
+					},
+					"isSequential": false
+				}
+			},
+			{
 				"name": "Delete SIlver taxi zone folder",
 				"type": "Delete",
 				"dependsOn": [],
@@ -30,14 +42,7 @@
 			{
 				"name": "Create Silver Taxi Zone Table",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "Delete SIlver taxi zone folder",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -47,7 +52,13 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[silver].[usp_silver_trip_data_green]"
+					"storedProcedureName": "[silver].[usp_silver_trip_data_green]",
+					"storedProcedureParameters": {
+						"year": {
+							"value": "2020",
+							"type": "Datetime"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "ls_serverless_sql_pool_db_nyc_taxi_ldw",
