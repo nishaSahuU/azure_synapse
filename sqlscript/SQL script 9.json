@@ -2,12 +2,12 @@
 	"name": "SQL script 9",
 	"properties": {
 		"content": {
-			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://datalakenisha.dfs.core.windows.net/datalakenisha/raw/taxi_zone.csv',\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n",
+			"query": "USE nyc_taxi_ldw;\n\nSELECT DISTINCT\n    year,\n    month\n   FROM bronze.vw_trip_data_green_csv; ",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "master",
+				"databaseName": "nyc_taxi_ldw",
 				"poolName": "Built-in"
 			},
 			"resultLimit": 5000

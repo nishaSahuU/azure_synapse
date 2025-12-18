@@ -1,0 +1,72 @@
+{
+	"name": "pl_dependencies",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Create Silve Table",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_create_silver_dymnamic",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Silver Trip Data Green",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_create_silver_trip_data_green",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Gold Trip Data Green",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Create Silve Table",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "Execute Silver Trip Data Green",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_create_gold_trip_data_green",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Pipelines"
+		},
+		"annotations": []
+	}
+}
