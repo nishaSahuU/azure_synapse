@@ -17,6 +17,12 @@
 		"bing-covid-19-data_sasUri": {
 			"value": ""
 		},
+		"ls_serverless_sql_pool_db_nyc_taxi_ldw_properties_typeProperties_server": {
+			"value": "tcp:azuresynapsenisha-ondemand.sql.azuresynapse.net,1433"
+		},
+		"ls_serverless_sql_pool_db_nyc_taxi_ldw_properties_typeProperties_database": {
+			"value": "nyc_taxi_ldw"
+		},
 		"ls_synapsecoursedl_properties_typeProperties_url": {
 			"value": "https://datalakenisha.dfs.core.windows.net/"
 		}
